@@ -1,42 +1,24 @@
-import { useState } from "react"
+import { useReducer, useState } from "react"
 import { Item } from "../types/Item"
+import { listReducer } from "../reducers/listReducers"
 
 const Reducers = () => {
-  const [list, setList] = useState<Item[]>([])
+  const [list, dispatch] = useReducer(listReducer, [])
 
-  const addNewItem = (text: string) => {
-    setList([...list, {
-      id: list.length,
-      text,
-      done: false
-    }])
+  const handleAddClick = () => {
+    dispatch({
+      type: 'add',
+      payload: {
+        text: 'Novo item'
+      }
+    })
   }
 
-  const editItemText = (id: number, newText: string) => {
-    setList(
-      list.map(item => {
-        if(item.id === id) item.text = newText
-        return item
-      })
-    )
-  }
-
-  const toggleItem = (id: number) => {
-    setList(
-      list.map(item => {
-        if(item.id === id) item.done = !item.done
-        return item
-      })
-    )
-  }
-
-  const removeItem = (id: number) => {
-    setList(
-      list.filter(item => item.id !== id)
-    )
-  }
-
-
+  return (
+    <div className="">
+      <button onClick={handleAddClick}>Adicionar</button>
+    </div>
+  )
 }
 
 export default Reducers
